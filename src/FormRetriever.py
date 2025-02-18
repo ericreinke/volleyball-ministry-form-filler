@@ -51,26 +51,10 @@ def get_fb_public_load_data(url: str):
     
     html = response.text
     """ Extract a variable from a script tag in a HTML page """
-    # print(html.find(ALL_DATA_FIELDS))
     match = first_valid_parentheses_content(html[html.find(ALL_DATA_FIELDS):])
-    
-    # pattern = re.compile(r'var\s' + name + r'\s=\s(.*?);')
-    # pattern2 = re.compile(r'\[(?:[^()]|(?R))*\]')
-    # print('hi')
-    # match = pattern2.search(html)
-    # print(html)
-    # if not match:
-    #     print("Error! Can't extract form data!!!!!!!!!!")
-    #     return None
-    # print(match.group(0));
-    # value_str = match.group(1)
-    # print(value_str)
-    # return json.loads(value_str)
-    # print("HELLO")
-    # print(match)
-    # print("GOODBYE")
+
     return json.loads(match)
-    #return extract_script_variables(ALL_DATA_FIELDS, response.text)
+
 
 def parse_form_entries(url: str, only_required = False):
     """
@@ -116,8 +100,6 @@ def parse_form_entries(url: str, only_required = False):
             if only_required and not info['required']:
                 continue
             result.append(info)
-        # print('parsed Entry: ')
-        #print(result)
         return result
 
     parsed_entries = []
@@ -128,24 +110,26 @@ def parse_form_entries(url: str, only_required = False):
             continue
         parsed_entries += parse_entry(entry)
 
-    # Collect email addresses
-    if v[1][10][6] > 1:
-        parsed_entries.append({
-            "id": "emailAddress",
-            "container_name": "Email Address",
-            "type": "required",
-            "required": True,
-            "options": "email address",
-        })
-    if page_count > 0:
-        parsed_entries.append({
-            "id": "pageHistory",
-            "container_name": "Page History",
-            "type": "required",
-            "required": False,
-            "options": "from 0 to (number of page - 1)",
-            "default_value": ','.join(map(str,range(page_count + 1)))
-        })
+    """This is uneeded existing code used for filling out forms that have more 
+    than 1 Email Address fields, and forms with more than one page"""
+    # # Collect email addresses
+    # if v[1][10][6] > 1:
+    #     parsed_entries.append({
+    #         "id": "emailAddress",
+    #         "container_name": "Email Address",
+    #         "type": "required",
+    #         "required": True,
+    #         "options": "email address",
+    #     })
+    # if page_count > 0:
+    #     parsed_entries.append({
+    #         "id": "pageHistory",
+    #         "container_name": "Page History",
+    #         "type": "required",
+    #         "required": False,
+    #         "options": "from 0 to (number of page - 1)",
+    #         "default_value": ','.join(map(str,range(page_count + 1)))
+    #     })
     # print(parsed_entries)
     return parsed_entries
 

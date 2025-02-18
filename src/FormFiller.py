@@ -67,7 +67,7 @@ def submit(url, data):
         print("Error!")
 
 def complete_form(url):
-    # get_form_response_url is being called twice.  Once here and then once in parse_form_entries.
+    # get_form_response_url is being called twice.  Once here and then once in FormRetriever.parse_form_entries.
     # FormFiller.submit() needs the formResponse URL, and so does FormRetriever.parse_form_entries().
     # it may be confusing to remove the call from parse_form_entries, so I'm leaving it there.
     # To remove it would mean trusting that we always pass a checked URL there.

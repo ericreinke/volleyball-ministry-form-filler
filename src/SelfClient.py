@@ -3,7 +3,7 @@
 
 import discord
 import FormFiller
-def client_init_and_start(): # I just wanted to store the token here, thats all
+def client_init_and_start(): # I just want to store the token here, thats all
     fillerBot = SelfClient()
     fillerBot.run(self_token)
 
@@ -17,6 +17,8 @@ class SelfClient(discord.Client):
         #print(message)
         if message.channel.id == COMP_CHANNEL_ID or message.channel.id == CASUAL_CHANNEL_ID or message.channel.id == test_CHANNEL_ID:
             print('Message: ' + message.content)
+            
+            #Find link indicies starting at http and ending at ' ' or '\n'
             start = message.content.find('http')
             space = message.content.find(' ', start)
             newLine = message.content.find('\n', start)
@@ -29,5 +31,7 @@ class SelfClient(discord.Client):
             if(start < 0 or end < 0):
                 return
             url = message.content[start:end]
+            
+            # Fill form given (first) URL in message
             FormFiller.complete_form(url)
 
